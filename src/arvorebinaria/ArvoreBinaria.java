@@ -27,8 +27,7 @@ public class ArvoreBinaria<T> extends ArvoreBinariaBase<T> {
 
         while (true) {
 
-            int comparacao =
-                    comparador.compare(novoValor, atual.getValor());
+            int comparacao = comparador.compare(novoValor, atual.getValor());
 
             if (comparacao < 0) {
 
@@ -139,22 +138,39 @@ public class ArvoreBinaria<T> extends ArvoreBinariaBase<T> {
         } else {
             pai.setDireita(filho);
         }
-
+//
         return true;
     }
 
     @Override
-    public int quantidadeNos() {
-        return quantidadeNos(raiz);
-    }
+    public int quantidadeNos() {return quantidadeNos(raiz);}
 
-    private int quantidadeNos(No<T> no) {
+    public int quantidadeNos(No<T> raiz) {
 
-        if (no == null) {
+        if (raiz == null) {
             return 0;
         }
 
-        return 1 + quantidadeNos(no.getEsquerda()) + quantidadeNos(no.getDireita());
+        int quantidade = 0;
+
+        Queue<No<T>> fila = new ArrayDeque<>();
+        fila.add(raiz);
+
+        while (!fila.isEmpty()) {
+
+            No<T> atual = fila.remove();
+            quantidade++;
+
+            if (atual.getEsquerda() != null) {
+                fila.add(atual.getEsquerda());
+            }
+
+            if (atual.getDireita() != null) {
+                fila.add(atual.getDireita());
+            }
+        }
+
+        return quantidade;
     }
 
     @Override

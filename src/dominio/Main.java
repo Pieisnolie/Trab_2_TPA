@@ -119,12 +119,15 @@ public class Main {
 
     private static void carregarArquivo() {
 
+        System.out.print("Nome do arquivo:");
+        String nomeArquivo = entrada.nextLine();
+
         long inicio = System.nanoTime();
 
         int quantidadeAdicionada = 0;
 
         // try-with-resources: garante o fechamento automático do BufferedReader
-        try (BufferedReader leitor = Files.newBufferedReader(Path.of("entrada.txt"))) {
+        try (BufferedReader leitor = Files.newBufferedReader(Path.of(nomeArquivo))) {
 
             String linha;
 
@@ -176,7 +179,7 @@ public class Main {
 
         } catch (IOException e) {
             // Trata erro de leitura (ex: arquivo não encontrado)
-            System.out.println("Erro ao ler entrada.txt: " + e.getMessage());
+            System.out.println("Erro ao ler" + nomeArquivo + ": " + e.getMessage());
         }
     }
 
