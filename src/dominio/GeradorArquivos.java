@@ -8,38 +8,82 @@ import java.nio.file.Path;
 public class GeradorArquivos {
 
     public static void main(String[] args) {
-        /*Metodo para gerar arquivos de teste de desempenho com diferentes tamanhos de entrada
-        * Comentar ou remover gerarArquivo, ou mudar parametro
-        * Mudar nome do arquivo desejado de entrada<N> para entrada.txt no root */
-        gerarArquivo(100000);
-        gerarArquivo(200000);
-        gerarArquivo(400000);
-        gerarArquivo(800000);
-        gerarArquivo(25000);
-        gerarArquivo(50000);
-        gerarArquivo(75000);
+
+        gerarDegenerado(25000);
+        gerarBalanceado(25000);
+
+        gerarDegenerado(50000);
+        gerarBalanceado(50000);
+
+        gerarDegenerado(75000);
+        gerarBalanceado(75000);
+
+        gerarDegenerado(100000);
+        gerarBalanceado(100000);
 
         System.out.println("Arquivos gerados com sucesso!");
     }
 
-    private static void gerarArquivo(int quantidade) {
+    private static void gerarDegenerado(int quantidade) {
 
-        String nomeArquivo = "entrada" +  quantidade + ".txt";
-        /* BufferedWriter para escrever em um fluxo de saida com buffer
-        * newBufferedWriter cria um BufferedWriter para o arquivo
-        * Path.of cria um objeto Path a partir do caminho */
-        try (BufferedWriter escritor = Files.newBufferedWriter(Path.of(nomeArquivo))) {
-            // Gera nome padronizado com escritor e quebra de linha
+        String nomeArquivo =
+                "entrada" + quantidade + "_degenerada.txt";
+
+        try (BufferedWriter escritor =
+                     Files.newBufferedWriter(Path.of(nomeArquivo))) {
+
             for (int i = 1; i <= quantidade; i++) {
-                String nome = String.format("Contato%06d", i);
-                String telefone = String.format("279%08d", i);
-                escritor.write(nome + ";" + telefone);
-                escritor.newLine();
+                escreverContato(escritor, i);
             }
 
-            System.out.println(nomeArquivo + " criado com " + quantidade + " contatos.");
         } catch (IOException e) {
-            System.out.println("Erro ao gerar " + nomeArquivo + ": " + e.getMessage());
+            System.out.println("Erro: " + e.getMessage());
         }
+    }
+
+    private static void gerarBalanceado(int quantidade) {
+
+        String nomeArquivo =
+                "entrada" + quantidade + "_balanceada.txt";
+
+        try (BufferedWriter escritor =
+                     Files.newBufferedWriter(Path.of(nomeArquivo))) {
+
+            escreverBalanceado(escritor, 1, quantidade);
+
+        } catch (IOException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private static void escreverBalanceado(
+            BufferedWriter escritor,
+            int inicio,
+            int fim) throws IOException {
+
+        if (inicio > fim) {
+            return;
+        }
+
+        int meio = (inicio + fim) / 2;
+
+        escreverContato(escritor, meio);
+
+        escreverBalanceado(escritor, inicio, meio - 1);
+        escreverBalanceado(escritor, meio + 1, fim);
+    }
+
+    private static void escreverContato(
+            BufferedWriter escritor,
+            int numero) throws IOException {
+
+        String nome =
+                String.format("Contato%06d", numero);
+
+        String telefone =
+                String.format("279%08d", numero);
+
+        escritor.write(nome + ";" + telefone);
+        escritor.newLine();
     }
 }
