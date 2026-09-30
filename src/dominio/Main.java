@@ -1,5 +1,6 @@
 package dominio;
 
+import arvorebinaria.ArvoreBinaria;
 import colecao.IColecao;
 import listaencadeada.ListaEncadeada;
 
@@ -28,25 +29,28 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("Lista ordenada? (S/N)");
-        String resposta = entrada.nextLine();
+        System.out.println("Escolha a estrutura:");
+        System.out.println("1 - Lista não ordenada");
+        System.out.println("2 - Lista ordenada");
+        System.out.println("3 - Árvore binária");
+        System.out.print("Escolha uma opção: ");
 
-        boolean ordenada = resposta.equalsIgnoreCase("S");
+        int tipoEstrutura = Integer.parseInt(entrada.nextLine());
 
-        // Inicializa a lista de contatos comparando por nome
-        contatosPorNome =
-                new ListaEncadeada<Contato>(
-                        new ComparadorContatoPorNome(),
-                        ordenada
-                );
+        if (tipoEstrutura == 3) {
 
-        // Inicializa a lista de contatos comparando por telefone
-        contatosPorTelefone =
-                new ListaEncadeada<Contato>(
-                        new ComparadorContatoPorTelefone(),
-                        ordenada
-                );
+            contatosPorNome = new ArvoreBinaria<Contato>(new ComparadorContatoPorNome());
 
+            contatosPorTelefone = new ArvoreBinaria<Contato>(new ComparadorContatoPorTelefone());
+
+        } else {
+
+            boolean ordenada = tipoEstrutura == 2;
+
+            contatosPorNome = new ListaEncadeada<Contato>(new ComparadorContatoPorNome(), ordenada);
+
+            contatosPorTelefone = new ListaEncadeada<Contato>(new ComparadorContatoPorTelefone(), ordenada);
+        }
         int opcao;
 
         do {
@@ -82,10 +86,7 @@ public class Main {
                     break;
 
                 case 0:
-                    System.out.println(
-                            "Quantidade total de contatos: "
-                                    + contatosPorTelefone.quantidadeNos()
-                    );
+                    System.out.println("Quantidade total de contatos: " + contatosPorTelefone.quantidadeNos());
 
                     System.out.println("Programa encerrado.");
                     break;
@@ -116,17 +117,15 @@ public class Main {
     }
 
 
-        private static void carregarArquivo() {
+    private static void carregarArquivo() {
 
-            System.out.print("Nome do arquivo: ");
-            String nomeArquivo = entrada.nextLine();
+        long inicio = System.nanoTime();
 
-            long inicio = System.nanoTime();
+        int quantidadeAdicionada = 0;
 
-            int quantidadeAdicionada = 0;
+        // try-with-resources: garante o fechamento automático do BufferedReader
+        try (BufferedReader leitor = Files.newBufferedReader(Path.of("entrada.txt"))) {
 
-            try (BufferedReader leitor =
-                         Files.newBufferedReader(Path.of(nomeArquivo))) {
             String linha;
 
             while ((linha = leitor.readLine()) != null) {
@@ -142,9 +141,7 @@ public class Main {
                 // Linha que não tem exatamente nome e telefone é descartada
                 if (dados.length != 2) {
 
-                    System.out.println(
-                            "Linha inválida ignorada: " + linha
-                    );
+                    System.out.println("Linha inválida ignorada: " + linha);
 
                     continue;
                 }
@@ -179,9 +176,7 @@ public class Main {
 
         } catch (IOException e) {
             // Trata erro de leitura (ex: arquivo não encontrado)
-                System.out.println(
-                        "Erro ao ler " + nomeArquivo + ": " + e.getMessage()
-                );
+            System.out.println("Erro ao ler entrada.txt: " + e.getMessage());
         }
     }
 
