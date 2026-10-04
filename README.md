@@ -14,6 +14,11 @@ O sistema permite trabalhar com diferentes estruturas de dados para armazenar e 
 * Lista encadeada não ordenada.
 * Árvore binária.
 
+## Integrantes
+
+- Dominic Cassidy
+- Gabriel Lacerda
+- Marcos Paulo
 A utilização dessas estruturas permite analisar como a organização dos dados influencia a complexidade e o tempo de execução das operações.
 
 ## Funcionalidades
@@ -46,6 +51,28 @@ São utilizadas diferentes estruturas para armazenar e manipular os contatos:
 A árvore binária implementada especializa a classe `ArvoreBinariaBase`, disponibilizada no repositório utilizado como referência para o trabalho.
 
 A biblioteca de árvores utiliza **Generics**, permitindo que a estrutura trabalhe com diferentes tipos de objetos, e **Comparator**, permitindo definir diferentes critérios de indexação.
+
+```text
+src
+├── arvorebinaria
+│   ├── ArvoreBinaria.java
+│   ├── ArvoreBinariaBase.java
+│   └── No.java
+│
+├── colecao
+│   └── IColecao.java
+│
+├── dominio
+│   ├── ComparadorContatoPorNome.java
+│   ├── ComparadorContatoPorTelefone.java
+│   ├── Contato.java
+│   ├── GeradorArquivos.java
+│   └── Main.java
+│
+└── listaencadeada
+    ├── ListaEncadeada.java
+    └── No.java
+```
 
 ## Árvore Binária
 
@@ -122,42 +149,107 @@ Linhas vazias são ignoradas e telefones duplicados não são cadastrados.
 
 ## Gerador de Arquivos
 
-O projeto possui a classe `GeradorArquivos`, utilizada para gerar arquivos com grandes quantidades de contatos para testes de desempenho.
-
-A quantidade de contatos é definida no método `main()` da classe `GeradorArquivos`. Por exemplo:
+A classe:
 
 ```text
-gerarArquivo(50000);
+src/dominio/GeradorArquivos.java
 ```
 
-A execução desse comando gera um arquivo chamado:
+é responsável por criar os arquivos utilizados nos testes de desempenho.
+
+Atualmente são gerados arquivos com:
 
 ```text
-entrada50000.txt
+25.000 contatos
+50.000 contatos
+75.000 contatos
+100.000 contatos
 ```
 
-Os contatos são gerados automaticamente seguindo o formato:
+Para cada tamanho são gerados dois tipos de arquivo:
 
 ```text
-Contato000001;27900000001
-Contato000002;27900000002
-Contato000003;27900000003
+entrada25000_degenerada.txt
+entrada25000_balanceada.txt
+
+entrada50000_degenerada.txt
+entrada50000_balanceada.txt
+
+entrada75000_degenerada.txt
+entrada75000_balanceada.txt
+
+entrada100000_degenerada.txt
+entrada100000_balanceada.txt
 ```
 
-Para utilizar o arquivo gerado no sistema principal, é necessário renomeá-lo para:
+### Arquivos para árvore degenerada
+
+Nos arquivos degenerados, os telefones são gerados em ordem crescente.
+
+Exemplo simplificado:
 
 ```text
-entrada.txt
+1
+2
+3
+4
+5
 ```
+
+Ao serem inseridos em uma árvore indexada pelo telefone, os valores ficam sucessivamente à direita:
+
+```text
+1
+ \
+  2
+   \
+    3
+     \
+      4
+```
+
+Dessa forma, é produzida uma árvore completamente degenerada.
+
+### Arquivos para árvore balanceada
+
+Para os arquivos balanceados, a geração começa pelo elemento localizado no meio do intervalo e depois repete o processo para as metades esquerda e direita.
+
+Para sete elementos, por exemplo, a ordem seria:
+
+```text
+4
+2
+1
+3
+6
+5
+7
+```
+
+Resultando em:
+
+```text
+        4
+      /   \
+     2     6
+    / \   / \
+   1   3 5   7
+```
+
+Essa geração permite comparar o desempenho da mesma árvore binária em diferentes topologias.
 
 ## Execução
 
-Ao iniciar o programa, o usuário deve escolher qual estrutura deseja utilizar.
+Ao iniciar o Main.java, o usuário deve escolher qual estrutura deseja utilizar.
 
 As opções disponíveis são:
 
 ```text
-Lista ordenada? (S/N)
+Escolha a estrutura:
+1 - Lista não ordenada
+2 - Lista ordenada
+3 - Árvore binária
+Escolha uma opção:
 ```
 
 Caso seja escolhida a opção correspondente à utilização de árvores, o sistema utilizará a árvore binária para armazenar os contatos.
@@ -182,12 +274,14 @@ Ao selecionar a opção `0`, o programa informa a quantidade total de contatos c
 * **Java**
 * **Generics**
 * **Comparator**
+* **IColecao**
 * **Lista Encadeada**
 * **Árvore Binária**
 * **Árvore AVL**
 * **HashSet**
 * **Scanner**
 * **BufferedReader**
+* **IntelliJ IDEA**
 * **Files**
 * **Path**
 * Comparadores para ordenação por **nome** e **telefone**
