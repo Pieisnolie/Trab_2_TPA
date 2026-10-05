@@ -91,12 +91,6 @@ A estrutura recebe um `Comparator` em seu construtor, permitindo definir como os
 
 Por exemplo, é possível utilizar diferentes árvores para os mesmos contatos, sendo uma organizada por **nome** e outra por **telefone**.
 
-## AVL
-
-O projeto também contempla a implementação de uma **árvore AVL**, que mantém seu balanceamento por meio de rotações após as operações de inserção e remoção.
-
-O balanceamento da árvore busca evitar que sua estrutura se aproxime de uma lista encadeada, mantendo uma altura menor e, consequentemente, melhorando o desempenho das operações de busca, inserção e remoção.
-
 ## Dependências
 
 O projeto utiliza apenas recursos padrão do Java e as classes desenvolvidas no próprio projeto.
@@ -129,7 +123,7 @@ Caso esteja utilizando uma IDE, basta importar o projeto e executar a classe `Ma
 
 ## Arquivo de Entrada
 
-Para utilizar a opção de carregamento de dados, o programa espera encontrar um arquivo chamado `entrada.txt` no diretório de execução.
+Para utilizar a opção de carregamento de dados, o programa pede o nome do arquivo .txt `<nome>.txt`
 
 Cada linha deve conter um **nome** e um **telefone**, separados por `;`.
 
