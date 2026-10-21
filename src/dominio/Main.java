@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import arvorebinaria.ArvoreAVL;
 
 public class Main {
 
@@ -33,6 +34,7 @@ public class Main {
         System.out.println("1 - Lista não ordenada");
         System.out.println("2 - Lista ordenada");
         System.out.println("3 - Árvore binária");
+        System.out.println("4 - Árvore AVL");
         System.out.print("Escolha uma opção: ");
 
         int tipoEstrutura = Integer.parseInt(entrada.nextLine());
@@ -43,11 +45,18 @@ public class Main {
 
             contatosPorTelefone = new ArvoreBinaria<Contato>(new ComparadorContatoPorTelefone());
 
+        } else if (tipoEstrutura == 4) {
+
+            contatosPorNome = new ArvoreAVL<Contato>(new ComparadorContatoPorNome());
+
+            contatosPorTelefone = new ArvoreAVL<Contato>(new ComparadorContatoPorTelefone());
+
         } else {
 
             boolean ordenada = tipoEstrutura == 2;
 
-            contatosPorNome = new ListaEncadeada<Contato>(new ComparadorContatoPorNome(), ordenada);
+            contatosPorNome =
+                    new ListaEncadeada<Contato>(new ComparadorContatoPorNome(), ordenada);
 
             contatosPorTelefone = new ListaEncadeada<Contato>(new ComparadorContatoPorTelefone(), ordenada);
         }

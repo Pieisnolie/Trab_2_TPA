@@ -6,7 +6,7 @@ import java.util.Queue;
 
 public class ArvoreBinaria<T> extends ArvoreBinariaBase<T> {
 
-    private No<T> raiz;
+    protected No<T> raiz;
 
     public ArvoreBinaria(Comparator<T> comparador) {
         super(comparador);
