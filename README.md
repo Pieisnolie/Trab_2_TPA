@@ -1,60 +1,54 @@
 # Sistema de Gerenciamento de Contatos
 
-Projeto em **Java** para gerenciamento de contatos utilizando listas encadeadas e árvores binárias, permitindo comparar diferentes estruturas de dados e critérios de organização.
+Projeto em **Java** para gerenciamento de contatos utilizando listas encadeadas, árvores binárias e árvores AVL, permitindo comparar diferentes estruturas de dados e critérios de organização.
 
 ## Introdução
 
-O objetivo deste trabalho é implementar e utilizar estruturas de **árvores binárias** em um sistema de gerenciamento de contatos, permitindo comparar seu funcionamento com as listas encadeadas desenvolvidas no trabalho anterior.
+O objetivo deste trabalho é implementar e utilizar estruturas de **árvores binárias e árvores AVL** em um sistema de gerenciamento de contatos, permitindo comparar seu funcionamento com as listas encadeadas desenvolvidas no trabalho anterior.
 
 O projeto utiliza recursos de **Generics** e **Comparator**, permitindo que as estruturas armazenem diferentes tipos de objetos e utilizem diferentes critérios de indexação.
 
-O sistema permite trabalhar com diferentes estruturas de dados para armazenar e pesquisar os contatos:
+O sistema permite trabalhar com quatro opções de estruturas:
 
-* Lista encadeada ordenada.
-* Lista encadeada não ordenada.
-* Árvore binária.
+- Lista encadeada não ordenada.
+- Lista encadeada ordenada.
+- Árvore binária.
+- Árvore AVL.
+
+A utilização dessas estruturas permite analisar como a organização e o balanceamento dos dados influenciam a complexidade e o tempo de execução das operações.
 
 ## Integrantes
 
 - Dominic Cassidy
 - Gabriel Lacerda
 - Marcos Paulo
-A utilização dessas estruturas permite analisar como a organização dos dados influencia a complexidade e o tempo de execução das operações.
 
 ## Funcionalidades
 
 O sistema permite:
 
-* Carregar contatos a partir de um arquivo `entrada.txt`.
-* Adicionar novos contatos.
-* Pesquisar contatos por nome.
-* Pesquisar contatos por telefone.
-* Remover contatos pelo telefone.
-* Alterar nome e telefone de contatos existentes.
-* Impedir o cadastro de telefones duplicados.
-* Utilizar listas ordenadas ou não ordenadas.
-* Utilizar uma árvore binária para armazenar os contatos.
-* Utilizar diferentes critérios de comparação por nome ou telefone.
-* Exibir o tempo de execução das operações de leitura, busca e remoção.
-* Exibir a quantidade total de contatos ao encerrar o programa.
+- Carregar contatos a partir de um arquivo `.txt` informado pelo usuário.
+- Adicionar novos contatos.
+- Pesquisar contatos por nome.
+- Pesquisar contatos por telefone.
+- Remover contatos pelo telefone.
+- Alterar nome e telefone de contatos existentes.
+- Impedir o cadastro de telefones duplicados.
+- Utilizar lista ordenada ou não ordenada.
+- Utilizar árvore binária.
+- Utilizar árvore AVL.
+- Utilizar diferentes critérios de comparação por nome ou telefone.
+- Exibir o tempo de execução das operações de leitura, busca e remoção.
+- Exibir a quantidade total de contatos ao encerrar o programa.
 
-## Estrutura
+## Estrutura do Projeto
 
 O projeto utiliza estruturas de dados genéricas baseadas na interface `IColecao`.
-
-São utilizadas diferentes estruturas para armazenar e manipular os contatos:
-
-* **Lista encadeada ordenada** — mantém os elementos organizados de acordo com um `Comparator`.
-* **Lista encadeada não ordenada** — adiciona os elementos sem manter uma ordem específica.
-* **Árvore binária** — organiza os elementos de acordo com um `Comparator`.
-
-A árvore binária implementada especializa a classe `ArvoreBinariaBase`, disponibilizada no repositório utilizado como referência para o trabalho.
-
-A biblioteca de árvores utiliza **Generics**, permitindo que a estrutura trabalhe com diferentes tipos de objetos, e **Comparator**, permitindo definir diferentes critérios de indexação.
 
 ```text
 src
 ├── arvorebinaria
+│   ├── ArvoreAVL.java
 │   ├── ArvoreBinaria.java
 │   ├── ArvoreBinariaBase.java
 │   └── No.java
@@ -74,30 +68,122 @@ src
     └── No.java
 ```
 
+As estruturas disponíveis são:
+
+- **Lista encadeada ordenada** — mantém os elementos organizados de acordo com um `Comparator`.
+- **Lista encadeada não ordenada** — adiciona os elementos sem manter uma ordem específica.
+- **Árvore binária** — organiza os elementos de acordo com um `Comparator`.
+- **Árvore AVL** — mantém os elementos organizados e realiza balanceamentos após inserções e remoções.
+
 ## Árvore Binária
 
-A biblioteca implementada possui suporte às principais operações de uma árvore binária, incluindo:
+A classe `ArvoreBinaria<T>` especializa a classe `ArvoreBinariaBase<T>` utilizada como base para o trabalho.
 
-* Inserção de elementos.
-* Pesquisa de elementos.
-* Remoção de elementos.
-* Cálculo da altura da árvore.
-* Caminhamento em ordem.
-* Caminhamento em nível.
+A árvore recebe um `Comparator<T>` em seu construtor, que determina como os elementos serão comparados.
 
-O caminhamento em ordem também é utilizado pela implementação do método `toString()` da árvore.
+A biblioteca implementa as principais operações de uma árvore binária:
 
-A estrutura recebe um `Comparator` em seu construtor, permitindo definir como os elementos serão comparados durante as operações.
+- Inserção de elementos.
+- Pesquisa de elementos.
+- Remoção de elementos.
+- Contagem dos nós.
+- Cálculo da altura da árvore.
+- Caminhamento em ordem.
+- Caminhamento em nível.
 
-Por exemplo, é possível utilizar diferentes árvores para os mesmos contatos, sendo uma organizada por **nome** e outra por **telefone**.
+O caminhamento em ordem também é utilizado pelo método `toString()` definido na classe `ArvoreBinariaBase`.
+
+É possível utilizar árvores diferentes para armazenar os mesmos contatos utilizando critérios diferentes. No sistema são utilizadas:
+
+- uma coleção indexada por **nome**;
+- uma coleção indexada por **telefone**.
+
+## Árvore AVL
+
+A classe `ArvoreAVL<T>` herda de `ArvoreBinaria<T>` e acrescenta o balanceamento automático da árvore.
+
+Os métodos `adicionar` e `remover` são sobrescritos para que, após as alterações na estrutura, seja verificado o fator de balanceamento dos nós.
+
+Cada nó da árvore possui:
+
+```text
+valor
+esquerda
+direita
+altura
+```
+
+A altura armazenada nos nós é utilizada para calcular o fator de balanceamento:
+
+```text
+altura da esquerda - altura da direita
+```
+
+Uma árvore AVL é considerada balanceada quando esse valor permanece entre:
+
+```text
+-1, 0 e 1
+```
+
+Quando ocorre um desequilíbrio, são utilizadas rotações para reorganizar a estrutura.
+
+A implementação possui:
+
+- Rotação simples para a direita.
+- Rotação simples para a esquerda.
+- Rotação esquerda-direita.
+- Rotação direita-esquerda.
+
+Por exemplo, a inserção:
+
+```text
+10
+20
+30
+```
+
+em uma árvore binária comum poderia resultar em:
+
+```text
+10
+  \
+   20
+     \
+      30
+```
+
+Na AVL, após o balanceamento, a estrutura fica:
+
+```text
+    20
+   /  \
+ 10    30
+```
+
+Isso evita que a árvore fique degenerada e mantém sua altura menor.
+
+## Comparadores
+
+O projeto possui dois critérios de comparação para os contatos:
+
+```text
+ComparadorContatoPorNome
+ComparadorContatoPorTelefone
+```
+
+O primeiro compara os contatos pelo nome e o segundo pelo telefone.
+
+Esses comparadores podem ser utilizados pelas listas, pela árvore binária e pela árvore AVL.
+
+O uso de `Comparator` permite utilizar a mesma estrutura com diferentes critérios de organização.
 
 ## Dependências
 
 O projeto utiliza apenas recursos padrão do Java e as classes desenvolvidas no próprio projeto.
 
-É necessário ter:
+É necessário possuir:
 
-* **Java JDK 11 ou superior**.
+- **Java JDK 11 ou superior**.
 
 Não são necessárias bibliotecas externas.
 
@@ -115,28 +201,34 @@ git clone https://github.com/Pieisnolie/TRAB_2_TPA.git
 cd TRAB_2_TPA
 ```
 
-### 3. Compile o projeto
+### 3. Execute o projeto
 
-Compile o projeto utilizando o JDK configurado no ambiente.
+O projeto pode ser aberto em uma IDE Java, como o **IntelliJ IDEA**.
 
-Caso esteja utilizando uma IDE, basta importar o projeto e executar a classe `Main`.
-
-## Arquivo de Entrada
-
-Para utilizar a opção de carregamento de dados, o programa pede o nome do arquivo .txt `<nome>.txt`
-
-Cada linha deve conter um **nome** e um **telefone**, separados por `;`.
-
-### Exemplo de `entrada.txt`
+Execute a classe:
 
 ```text
-Gabriel;27999999999
-Dominic;27988888888
-Marcos;27977777777
-Ryan;27966666666
-Lucas;27955555555
-Bruno;27944444444
-Ana;27933333333
+src/dominio/Main.java
+```
+
+## Arquivos de Entrada
+
+Ao selecionar a opção de carregamento, o programa solicita o nome do arquivo `.txt` que será utilizado.
+
+Exemplo:
+
+```text
+entrada25000_degenerada.txt
+```
+
+Cada linha deve possuir um **nome** e um **telefone**, separados por `;`.
+
+Exemplo:
+
+```text
+Contato000001;27900000001
+Contato000002;27900000002
+Contato000003;27900000003
 ```
 
 Linhas vazias são ignoradas e telefones duplicados não são cadastrados.
@@ -149,9 +241,9 @@ A classe:
 src/dominio/GeradorArquivos.java
 ```
 
-é responsável por criar os arquivos utilizados nos testes de desempenho.
+é utilizada para gerar os arquivos necessários para os testes de desempenho.
 
-Atualmente são gerados arquivos com:
+Atualmente são utilizados os seguintes tamanhos:
 
 ```text
 25.000 contatos
@@ -160,7 +252,7 @@ Atualmente são gerados arquivos com:
 100.000 contatos
 ```
 
-Para cada tamanho são gerados dois tipos de arquivo:
+Para cada tamanho são gerados dois arquivos:
 
 ```text
 entrada25000_degenerada.txt
@@ -180,7 +272,7 @@ entrada100000_balanceada.txt
 
 Nos arquivos degenerados, os telefones são gerados em ordem crescente.
 
-Exemplo simplificado:
+Exemplo:
 
 ```text
 1
@@ -190,7 +282,7 @@ Exemplo simplificado:
 5
 ```
 
-Ao serem inseridos em uma árvore indexada pelo telefone, os valores ficam sucessivamente à direita:
+Quando esses valores são inseridos em uma árvore binária comum, a estrutura tende a ficar:
 
 ```text
 1
@@ -204,9 +296,11 @@ Ao serem inseridos em uma árvore indexada pelo telefone, os valores ficam suces
 
 Dessa forma, é produzida uma árvore completamente degenerada.
 
+Esses arquivos também são utilizados nos testes da **Árvore AVL**, permitindo observar como o balanceamento impede que a estrutura permaneça degenerada.
+
 ### Arquivos para árvore balanceada
 
-Para os arquivos balanceados, a geração começa pelo elemento localizado no meio do intervalo e depois repete o processo para as metades esquerda e direita.
+Nos arquivos destinados à árvore binária balanceada, a geração começa pelo elemento localizado no meio do intervalo e repete o processo para as metades esquerda e direita.
 
 Para sete elementos, por exemplo, a ordem seria:
 
@@ -230,25 +324,24 @@ Resultando em:
    1   3 5   7
 ```
 
-Essa geração permite comparar o desempenho da mesma árvore binária em diferentes topologias.
+Essa geração permite comparar o desempenho da árvore binária em diferentes topologias.
 
 ## Execução
 
-Ao iniciar o Main.java, o usuário deve escolher qual estrutura deseja utilizar.
+Ao executar `Main.java`, o usuário deve escolher qual estrutura deseja utilizar.
 
-As opções disponíveis são:
+O programa apresenta:
 
 ```text
 Escolha a estrutura:
 1 - Lista não ordenada
 2 - Lista ordenada
 3 - Árvore binária
+4 - Árvore AVL
 Escolha uma opção:
 ```
 
-Caso seja escolhida a opção correspondente à utilização de árvores, o sistema utilizará a árvore binária para armazenar os contatos.
-
-O menu principal apresenta as operações disponíveis:
+Depois da escolha, é apresentado o menu:
 
 ```text
 ===== MENU =====
@@ -261,39 +354,125 @@ O menu principal apresenta as operações disponíveis:
 0 - Sair
 ```
 
-Ao selecionar a opção `0`, o programa informa a quantidade total de contatos cadastrados antes de ser encerrado.
-
-## Tecnologias
-
-* **Java**
-* **Generics**
-* **Comparator**
-* **IColecao**
-* **Lista Encadeada**
-* **Árvore Binária**
-* **Árvore AVL**
-* **HashSet**
-* **Scanner**
-* **BufferedReader**
-* **IntelliJ IDEA**
-* **Files**
-* **Path**
-* Comparadores para ordenação por **nome** e **telefone**
+Ao selecionar a opção `0`, o programa informa a quantidade total de contatos antes de encerrar.
 
 ## Organização dos Dados
 
-O sistema utiliza diferentes critérios para trabalhar com os contatos. Os contatos podem ser organizados e pesquisados utilizando o **nome** ou o **telefone** como referência.
+O programa utiliza duas coleções para armazenar os contatos:
 
-Para a organização por nome, é utilizado um comparador que compara os nomes dos contatos.
+- uma indexada pelo nome;
+- outra indexada pelo telefone.
 
-Para a organização por telefone, é utilizado um comparador que compara os números de telefone.
+O mesmo objeto `Contato` é utilizado nas duas estruturas.
 
-Esses comparadores podem ser utilizados tanto pelas listas quanto pelas árvores, permitindo que as estruturas utilizem diferentes critérios de indexação.
+Para a coleção por nome, é utilizado:
 
-## Complexidade e Desempenho
+```text
+ComparadorContatoPorNome
+```
 
-O uso de diferentes estruturas de dados permite analisar como a topologia da estrutura influencia a complexidade das operações.
+Para a coleção por telefone:
 
-Em uma árvore binária, o desempenho das operações depende diretamente de sua altura. Uma árvore mais equilibrada tende a apresentar operações mais eficientes, enquanto uma árvore degenerada pode se aproximar do comportamento de uma lista encadeada.
+```text
+ComparadorContatoPorTelefone
+```
 
-Os tempos de execução das operações podem ser utilizados para comparar o comportamento das listas e das árvores com diferentes quantidades de contatos.
+Dessa forma, o programa consegue realizar buscas utilizando os dois critérios.
+
+## Complexidade
+
+### Árvore Binária
+
+O desempenho da árvore binária comum depende de sua altura.
+
+Em uma árvore perfeitamente balanceada, as operações de inserção, pesquisa e remoção apresentam:
+
+```text
+O(log n)
+```
+
+No pior caso, em uma árvore completamente degenerada:
+
+```text
+O(n)
+```
+
+Por isso, a topologia da árvore influencia diretamente o desempenho das operações.
+
+### Árvore AVL
+
+A árvore AVL realiza balanceamentos para evitar que sua altura cresça como em uma árvore degenerada.
+
+Como sua altura permanece proporcional a:
+
+```text
+O(log n)
+```
+
+as operações de inserção, pesquisa e remoção apresentam complexidade:
+
+```text
+O(log n)
+```
+
+no pior caso.
+
+As rotações utilizadas durante o balanceamento modificam apenas uma quantidade constante de referências e possuem custo `O(1)`. O percurso realizado até o nó continua limitado pela altura da árvore.
+
+### Quantidade de Nós
+
+O método `quantidadeNos()` percorre todos os elementos da árvore.
+
+Por isso, sua complexidade é:
+
+```text
+O(n)
+```
+
+independentemente da topologia da árvore.
+
+## Testes de Desempenho
+
+Os testes de desempenho medem:
+
+- Tempo de leitura e montagem da estrutura.
+- Busca por telefone.
+- Busca por nome.
+- Remoção por telefone.
+
+Os testes permitem comparar:
+
+```text
+Lista encadeada
+Árvore binária degenerada
+Árvore binária balanceada
+Árvore AVL
+```
+
+Para os testes da AVL são utilizados os mesmos arquivos com valores em ordem crescente utilizados anteriormente para produzir árvores binárias degeneradas.
+
+A comparação permite observar o efeito do balanceamento automático no desempenho das operações.
+
+## Tecnologias e Recursos Utilizados
+
+- Java
+- Generics
+- Comparator
+- IColecao
+- Lista Encadeada
+- Árvore Binária
+- Árvore AVL
+- ArrayDeque
+- Queue
+- HashSet
+- Scanner
+- BufferedReader
+- Files
+- Path
+- IntelliJ IDEA
+- Git
+- GitHub
+
+## Repositório
+
+O repositório contém a implementação das listas encadeadas, árvores binárias e árvores AVL utilizadas no trabalho, além do sistema de gerenciamento de contatos, gerador de arquivos e código utilizado nos testes de desempenho.
